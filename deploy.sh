@@ -11,6 +11,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f https://github.com/jan25/f1-lights master:gh-pages
+git push -f https://github.com/NicoFJ09/f1-lights master:gh-pages
 
 cd -
