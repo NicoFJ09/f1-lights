@@ -3,7 +3,7 @@
     <div class="background-layer"></div>
     
     <div class="header">
-      <img class="logo" src="/Logo.png" alt="Kinitro Logo" />
+      <img class="logo" src="/images/Logo.png" alt="Kinitro Logo" />
       <h1 class="title" v-html="isMobile ? 'KINITRO<br>RACING' : 'KINITRO RACING'"></h1>
     </div>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="avatar-container">
-      <img class="avatar" src="/Avatar.png" alt="Avatar" />
+      <img class="avatar" src="/images/Avatar.png" alt="Avatar" />
     </div>
   </div>
 </template>
