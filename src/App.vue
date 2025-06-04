@@ -61,72 +61,74 @@ export default {
   },
 
 
-  methods: {
-    start() {
-      this.nextLightStrip = 0;
-      this.result = "00.000";
-      this.startTime = null;
-      this.clearLights();
+methods: {
+  start() {
+    this.nextLightStrip = 0;
+    this.result = "00.000";
+    this.startTime = null;
+    this.clearLights();
 
-      this.turnOnNextLight();
-      this.timerId = setInterval(
-        () => this.turnOnNextLight(),
-        LIGHT_ON_INTERVAL
-      );
-    },
+    this.turnOnNextLight();
+    this.timerId = setInterval(
+      () => this.turnOnNextLight(),
+      LIGHT_ON_INTERVAL
+    );
+  },
 
-    turnOnNextLight() {
-      if (this.nextLightStrip == 5) {
-        this.fuzzedLightsOut();
-        clearInterval(this.timerId);
-      } else {
-        this.$refs.lights[this.nextLightStrip].switchOn(true);
-        this.nextLightStrip++;
-      }
-    },
-
-    fuzzedLightsOut() {
-      // random time between 4-7 sec
-      const fuzzyInterval = Math.random() * 1800 + 2400;
-      this.fuzzerId = setTimeout(() => {
-        this.clearLights();
-        this.startTime = Date.now();
-        this.state = WAITING;
-      }, fuzzyInterval);
-    },
-
-    clearLights() {
-      this.$refs.lights.forEach(l => l.switchOn(false));
-    },
-
-    onClick() {
-      if (this.state == RUNNING) {
-        this.state = IDLE;
-        this.result = "JUMP START!";
-        clearInterval(this.timerId);
-        clearTimeout(this.fuzzerId);
-      } else if (this.state == IDLE) {
-        this.state = RUNNING;
-        this.start();
-      } else if (this.state == WAITING) {
-        this.state = IDLE;
-        const timeDiff = Date.now() - this.startTime;
-        this.result = this.format(timeDiff);
-        this.best = this.best === 0 ? timeDiff : Math.min(this.best, timeDiff);
-        localStorage.best = this.best;
-      }
-    },
-
-    format(ms) {
-      // Convert milliseconds to seconds.milliseconds format
-      const secs = (ms / 1000).toFixed(3);
-      return `${(parseInt(secs) < 10 ? "0" : "") + secs}`;
-    },
-
-    checkScreenSize() {
-      this.isMobile = window.innerWidth <= 768;
+  turnOnNextLight() {
+    if (this.nextLightStrip == 5) {
+      this.fuzzedLightsOut();
+      clearInterval(this.timerId);
+    } else {
+      this.$refs.lights[this.nextLightStrip].switchOn(true);
+      this.nextLightStrip++;
     }
+  },
+
+  fuzzedLightsOut() {
+    // random time between 4-7 sec
+    const fuzzyInterval = Math.random() * 1800 + 2400;
+    this.fuzzerId = setTimeout(() => {
+      this.clearLights();
+      this.startTime = Date.now();
+      this.state = WAITING;
+    }, fuzzyInterval);
+  },
+
+  clearLights() {
+    this.$refs.lights.forEach(l => l.switchOn(false));
+  },
+
+  onClick() {
+    if (this.state == RUNNING) {
+      this.state = IDLE;
+      this.result = "JUMP START!";
+      clearInterval(this.timerId);
+      clearTimeout(this.fuzzerId);
+    } else if (this.state == IDLE) {
+      this.state = RUNNING;
+      this.start();
+    } else if (this.state == WAITING) {
+      this.state = IDLE;
+      const timeDiff = Date.now() - this.startTime;
+      // Reducir 100ms para hacer el delay más justo
+      const adjustedTime = Math.max(0, timeDiff - 100);
+      this.result = this.format(adjustedTime);
+      this.best = this.best === 0 ? adjustedTime : Math.min(this.best, adjustedTime);
+      localStorage.best = this.best;
+    }
+  },
+
+  format(ms) {
+    // Convert milliseconds to seconds.milliseconds format
+    const secs = (ms / 1000).toFixed(3);
+    return `${(parseInt(secs) < 10 ? "0" : "") + secs}`;
+  },
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
   }
+}
 };
 </script>
 
