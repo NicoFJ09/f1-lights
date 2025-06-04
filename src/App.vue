@@ -3,7 +3,7 @@
     <div class="background-layer"></div>
     
     <div class="header">
-      <img class="logo" src="/images/Logo.png" alt="Kinitro Logo" />
+      <img class="logo" :src="require('@/assets/images/Logo.png')" alt="Kinitro Logo" />
       <h1 class="title" v-html="isMobile ? 'KINITRO<br>RACING' : 'KINITRO RACING'"></h1>
     </div>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="avatar-container">
-      <img class="avatar" src="/images/Avatar.png" alt="Avatar" />
+      <img class="avatar" :src="require('@/assets/images/Avatar.png')" alt="Avatar" />
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ export default {
     };
   },
 
-    mounted() {
+  mounted() {
     this.checkScreenSize();
     window.addEventListener('resize', this.checkScreenSize);
   },
@@ -60,75 +60,74 @@ export default {
     window.removeEventListener('resize', this.checkScreenSize);
   },
 
-
-methods: {
-  start() {
-    this.nextLightStrip = 0;
-    this.result = "00.000";
-    this.startTime = null;
-    this.clearLights();
-
-    this.turnOnNextLight();
-    this.timerId = setInterval(
-      () => this.turnOnNextLight(),
-      LIGHT_ON_INTERVAL
-    );
-  },
-
-  turnOnNextLight() {
-    if (this.nextLightStrip == 5) {
-      this.fuzzedLightsOut();
-      clearInterval(this.timerId);
-    } else {
-      this.$refs.lights[this.nextLightStrip].switchOn(true);
-      this.nextLightStrip++;
-    }
-  },
-
-  fuzzedLightsOut() {
-    // random time between 4-7 sec
-    const fuzzyInterval = Math.random() * 1800 + 2400;
-    this.fuzzerId = setTimeout(() => {
+  methods: {
+    start() {
+      this.nextLightStrip = 0;
+      this.result = "00.000";
+      this.startTime = null;
       this.clearLights();
-      this.startTime = Date.now();
-      this.state = WAITING;
-    }, fuzzyInterval);
-  },
 
-  clearLights() {
-    this.$refs.lights.forEach(l => l.switchOn(false));
-  },
+      this.turnOnNextLight();
+      this.timerId = setInterval(
+        () => this.turnOnNextLight(),
+        LIGHT_ON_INTERVAL
+      );
+    },
 
-  onClick() {
-    if (this.state == RUNNING) {
-      this.state = IDLE;
-      this.result = "JUMP START!";
-      clearInterval(this.timerId);
-      clearTimeout(this.fuzzerId);
-    } else if (this.state == IDLE) {
-      this.state = RUNNING;
-      this.start();
-    } else if (this.state == WAITING) {
-      this.state = IDLE;
-      const timeDiff = Date.now() - this.startTime;
-      // Reducir 100ms para hacer el delay más justo
-      const adjustedTime = Math.max(0, timeDiff - 100);
-      this.result = this.format(adjustedTime);
-      this.best = this.best === 0 ? adjustedTime : Math.min(this.best, adjustedTime);
-      localStorage.best = this.best;
+    turnOnNextLight() {
+      if (this.nextLightStrip == 5) {
+        this.fuzzedLightsOut();
+        clearInterval(this.timerId);
+      } else {
+        this.$refs.lights[this.nextLightStrip].switchOn(true);
+        this.nextLightStrip++;
+      }
+    },
+
+    fuzzedLightsOut() {
+      // random time between 4-7 sec
+      const fuzzyInterval = Math.random() * 1800 + 2400;
+      this.fuzzerId = setTimeout(() => {
+        this.clearLights();
+        this.startTime = Date.now();
+        this.state = WAITING;
+      }, fuzzyInterval);
+    },
+
+    clearLights() {
+      this.$refs.lights.forEach(l => l.switchOn(false));
+    },
+
+    onClick() {
+      if (this.state == RUNNING) {
+        this.state = IDLE;
+        this.result = "JUMP START!";
+        clearInterval(this.timerId);
+        clearTimeout(this.fuzzerId);
+      } else if (this.state == IDLE) {
+        this.state = RUNNING;
+        this.start();
+      } else if (this.state == WAITING) {
+        this.state = IDLE;
+        const timeDiff = Date.now() - this.startTime;
+        // Reducir 100ms para hacer el delay más justo
+        const adjustedTime = Math.max(0, timeDiff - 100);
+        this.result = this.format(adjustedTime);
+        this.best = this.best === 0 ? adjustedTime : Math.min(this.best, adjustedTime);
+        localStorage.best = this.best;
+      }
+    },
+
+    format(ms) {
+      // Convert milliseconds to seconds.milliseconds format
+      const secs = (ms / 1000).toFixed(3);
+      return `${(parseInt(secs) < 10 ? "0" : "") + secs}`;
+    },
+
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768;
     }
-  },
-
-  format(ms) {
-    // Convert milliseconds to seconds.milliseconds format
-    const secs = (ms / 1000).toFixed(3);
-    return `${(parseInt(secs) < 10 ? "0" : "") + secs}`;
-  },
-
-  checkScreenSize() {
-    this.isMobile = window.innerWidth <= 768;
   }
-}
 };
 </script>
 
@@ -200,7 +199,7 @@ methods: {
 
 .title {
   color: white;
-  font-size: 2.5 rem;
+  font-size: 2.5rem;
   margin: 0 0 1rem 0;
   text-shadow: 
     0 0 10px rgba(255, 140, 0, 0.5),
@@ -318,7 +317,6 @@ methods: {
     padding-top: 0.5rem;
   }
   
-  
   #lights-container {
     gap: 10px;
     padding: 1rem;
@@ -336,7 +334,6 @@ methods: {
     padding: 0.8rem; 
     margin-bottom: 0.8rem;
   }
-  
 }
 
 @media only screen and (max-width: 1024px) {
