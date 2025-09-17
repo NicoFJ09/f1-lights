@@ -3,8 +3,8 @@
     <div class="background-layer"></div>
     
     <div class="header">
-      <img class="logo" :src="require('@/assets/images/Logo.png')" alt="Kinitro Logo" />
-      <h1 class="title" v-html="isMobile ? 'KINITRO<br>RACING' : 'KINITRO RACING'"></h1>
+      <img class="logo" :src="require('@/assets/images/Logo.png')" alt="Kura Logo" />
+      <h1 class="title" v-html="isMobile ? 'KURA<br>FORCE' : 'KURA FORCE'"></h1>
     </div>
 
     <div id="lights-container">
@@ -17,6 +17,11 @@
     <div class="results-section">
       <h1 class="time">{{ this.result !== null ? this.result : "" }}</h1>
       <div class="best-time">Your best: {{ this.format(this.best) }}</div>
+      <div class="footer-link">
+        <a href="https://kuraforce.vercel.app/" target="_blank" rel="noopener" class="footer-anchor">
+          Meet the team! 🇨🇷
+        </a>
+      </div>
     </div>
 
     <div class="avatar-container">
@@ -132,6 +137,25 @@ export default {
 </script>
 
 <style scoped>
+/* Footer link styles */
+.footer-link {
+  margin-top: 1.2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.footer-anchor {
+  color: #244D3F;
+  font-size: 1rem;
+  text-decoration: underline;
+  transition: color 0.2s;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  padding-bottom: 1rem;
+}
+.footer-anchor:hover {
+  color: #3B6D5C;
+}
+
 #app {
   height: 100vh;
   width: 100vw;
@@ -139,46 +163,16 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: #fff;
   font-family: 'Anton', sans-serif;
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
 
+
 .background-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(255, 69, 0, 0.08) 0%, transparent 50%),
-    linear-gradient(45deg, transparent 30%, rgba(255, 140, 0, 0.03) 50%, transparent 70%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Flowing lines animation */
-.background-layer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(45deg, transparent 48%, rgba(255, 140, 0, 0.1) 49%, rgba(255, 140, 0, 0.1) 51%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(255, 69, 0, 0.08) 49%, rgba(255, 69, 0, 0.08) 51%, transparent 52%);
-  background-size: 100px 100px, 150px 150px;
-  animation: flow 20s linear infinite;
-  opacity: 0.3;
-}
-
-@keyframes flow {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(200px, 200px); }
+  display: none;
 }
 
 .header {
@@ -190,20 +184,19 @@ export default {
   flex-shrink: 0;
 }
 
+
 .logo {
   height: clamp(50px, 12vw, 100px);
   margin-bottom: 0.5rem;
-  filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
+  filter: none;
   z-index: 11;
 }
 
+
 .title {
-  color: white;
+  color: #244D3F;
   font-size: 2.5rem;
   margin: 0 0 1rem 0;
-  text-shadow: 
-    0 0 10px rgba(255, 140, 0, 0.5),
-    3px 3px 6px rgba(0, 0, 0, 0.7);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: center;
@@ -217,16 +210,15 @@ export default {
   z-index: 10;
   gap: 15px;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: #A6C5BB22;
   border-radius: 20px;
-  border: 2px solid rgba(255, 140, 0, 0.3);
-  backdrop-filter: blur(10px);
+  border: 2px solid #A6C5BB;
   margin-bottom: 1rem;
 }
 
 #connector {
   position: absolute;
-  background: linear-gradient(90deg, rgba(255, 140, 0, 0.5), rgba(255, 69, 0, 0.5));
+  background: #BCC69E;
   height: 4px;
   top: 50%;
   width: 80%;
@@ -236,12 +228,11 @@ export default {
 }
 
 .instructions {
-  color: rgba(255, 255, 255, 0.9);
+  color: #244D3F;
   font-size: 1.1rem;
   text-align: center;
   z-index: 10;
   margin: 0 1rem 1.5rem 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -259,10 +250,7 @@ export default {
   font-size: clamp(2.5rem, 10vw, 5rem);
   font-weight: 300;
   line-height: 1.2;
-  color: white;
-  text-shadow: 
-    0 0 20px rgba(255, 140, 0, 0.6),
-    2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #244D3F;
   z-index: 10;
   position: relative;
   margin: 0;
@@ -270,9 +258,8 @@ export default {
 }
 
 .best-time {
-  color: rgba(255, 255, 255, 0.8);
+  color: #BCC69E;
   font-size: clamp(1rem, 4vw, 1.8rem);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   z-index: 10;
   position: relative;
   margin: 0;
@@ -292,7 +279,7 @@ export default {
 .avatar {
   height: clamp(60px, 20vw, 600px);
   z-index: 12;
-  filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.3));
+  filter: none;
 }
 
 .help-text {
@@ -306,7 +293,7 @@ export default {
   font-size: clamp(0.8rem, 2.5vw, 1.1rem);
   line-height: 1.3;
   z-index: 13;
-  color: #333;
+  color: #244D3F;
   font-family: Arial, sans-serif;
   font-weight: normal;
 }
